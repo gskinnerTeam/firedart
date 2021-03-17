@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:firedart/auth/client.dart';
@@ -8,12 +9,11 @@ import 'user_gateway.dart';
 
 class AuthGateway {
   final KeyClient client;
-  final TokenProvider tokenProvider;
+  final TokenProvider? tokenProvider;
 
   AuthGateway(this.client, this.tokenProvider);
 
-  Future<User> signUp(String email, String password) async =>
-      _auth('signUp', {'email': email, 'password': password});
+  Future<User> signUp(String email, String password) async => _auth('signUp', {'email': email, 'password': password});
 
   Future<User> signIn(String email, String password) async =>
       _auth('signInWithPassword', {'email': email, 'password': password});
@@ -31,18 +31,16 @@ class AuthGateway {
       'returnSecureToken': 'true',
     };
 
-    var map = await _post(method, body);
-    tokenProvider.setToken(map);
+    var map = await (_post(method, body) as FutureOr<Map<String, dynamic>>);
+    tokenProvider!.setToken(map);
     return User.fromMap(map);
   }
 
-  Future<Map<String, dynamic>> _post(
-      String method, Map<String, String> body) async {
-    var requestUrl =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$method';
+  Future<Map<String, dynamic>?> _post(String method, Map<String, String> body) async {
+    var requestUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:$method';
 
     var response = await client.post(
-      requestUrl,
+      Uri.parse(requestUrl),
       body: body,
     );
 

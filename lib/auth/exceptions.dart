@@ -3,7 +3,7 @@ import 'dart:convert';
 class AuthException implements Exception {
   final String body;
 
-  String get message => jsonDecode(body)['error']['message'];
+  String get message => jsonDecode(body)['error']['message'] ?? '';
 
   String get errorCode => message.split(' ')[0];
 
@@ -15,6 +15,5 @@ class AuthException implements Exception {
 
 class SignedOutException implements Exception {
   @override
-  String toString() =>
-      'SignedOutException: Attempted to call a protected resource while signed out';
+  String toString() => 'SignedOutException: Attempted to call a protected resource while signed out';
 }

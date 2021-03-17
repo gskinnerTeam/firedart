@@ -7,12 +7,12 @@ class TokenAuthenticator {
 
   TokenAuthenticator._internal(this.auth);
 
-  factory TokenAuthenticator.from(FirebaseAuth auth) {
+  static TokenAuthenticator? from(FirebaseAuth? auth) {
     return auth != null ? TokenAuthenticator._internal(auth) : null;
   }
 
   Future<void> authenticate(Map<String, String> metadata, String uri) async {
-    var idToken = await auth.tokenProvider.idToken;
+    var idToken = await auth.tokenProvider!.idToken;
     metadata['authorization'] = 'Bearer ${idToken}';
   }
 
