@@ -1,3 +1,8 @@
+
+## [1.0.0-nullsafety] - 16 March 2021.
+
+* Migrate to nnbd
+
 ## [0.8.3] - 26 October 2020.
 
 * Update dependencies and regenerate RPC stubs
